@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      TELEGRAM_BOT_TOKEN: 'TELEGRAM_BOT_TOKEN'
+      TELEGRAM_CHANNEL_ID: 'TELEGRAM_CHANNEL_ID'
+      AMQP_URL: 'amqp://RABBITMQ_DEFAULT_USER:RABBITMQ_DEFAULT_PASS@rabbitmq:5672'
+      AMQP_QUEUE: 'LOGS_QUEUE'
+      AMQP_PREFETCH_COUNT: 10
+    depends_on:
+      - rabbitmq
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    volumes:
+      - data:/var/lib/rabbitmq/
+    environment:
+      RABBITMQ_DEFAULT_USER: 'RABBITMQ_DEFAULT_USER'
+      RABBITMQ_DEFAULT_PASS: 'RABBITMQ_DEFAULT_PASS'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    restart: always
+
+volumes:
+  data:
+    driver: local
