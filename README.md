@@ -1,4 +1,4 @@
-# Logger Telegram
+# Logger Telegram Microservice based on NestJS
 
 ## Pre-requisites
 
@@ -18,7 +18,7 @@
 
 ## How to use
 
-Simply publish a message with payload
+Connect to the `rabbitmq` container and publish a message with payload to the `AMQP_QUEUE` queue
 ```
 { "pattern": "log-message", "data": "test" }
 ```
